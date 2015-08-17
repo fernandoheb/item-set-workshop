@@ -4,7 +4,7 @@ const express = require('express');
 var app = express();
 
 // Common configuration
-var port = process.argv[2] || 3000;
+var port = process.env.OPENSHIFT_NODEJS_PORT || 8080;
 
 // Configure routing resources
 app.use(express.static('app'));
