@@ -5,6 +5,7 @@ var app = express();
 
 // Common configuration
 var port = process.env.OPENSHIFT_NODEJS_PORT || 8080;
+var ip = process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1";
 
 // Configure routing resources
 app.use(express.static('app'));
@@ -15,4 +16,4 @@ app.get('/', function (req, res) {
 
 
 // Start server
-app.listen(port);
+app.listen(port, ip);
