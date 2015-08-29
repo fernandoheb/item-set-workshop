@@ -159,7 +159,7 @@ function getDetails(mj){
   var i = 0;
   var arr;
   var output = [];
-  while(i<10){
+  while(i<playerNum){
     arr = [mj.participantIdentities[i].player.summonerName,mj.participants[i].championId,mj.participants[i].teamId,mj.participants[i].spell1Id,mj.participants[i].spell2Id,mj.participants[i].stats.kills,mj.participants[i].stats.deaths,mj.participants[i].stats.assists,mj.participants[i].stats.champLevel,mj.participants[i].stats.minionsKilled+mj.participants[i].stats.neutralMinionsKilled,mj.participants[i].stats.goldEarned];
     output.push(arr);
     i++;

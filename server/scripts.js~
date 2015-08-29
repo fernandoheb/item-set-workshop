@@ -181,6 +181,7 @@ exports.getMatch = getMatch;
 //exports.daily = daily;
 exports.ddragonVersion = ddragonVersion;
 exports.champions = champions;
+exports.summonerSpells = summonerSpells;
 
 
 
