@@ -1,6 +1,6 @@
-var key='api_key=f39f8547-5363-4eaa-ad2c-f76f5ed9bbd2';
-var http = require('http');
-var https = require("https");
+const key='api_key=f39f8547-5363-4eaa-ad2c-f76f5ed9bbd2';
+const http = require('http');
+const https = require("https");
 
 get = function(options,onResult){
     var prot = options.port == 443 ? https : http;
@@ -42,7 +42,7 @@ function getHistory(userName,region,callback){
   };
   get(options,function middle1(code,text){
     if(code==404){//No summoner data found for any specified inputs
-      return callback(JSON.parse('{"error":"no summoner data"}'));
+      return callback('{"error":"no summoner data"}');
     }
     if(code==500||code==503){//rito server error, try again
       return get(options,middle1);
@@ -62,13 +62,13 @@ function getHistory(userName,region,callback){
           return get(options,middle2);
         }
         if(code==200){
-          return callback(JSON.parse(text));
+          return callback(text);
         }
-        return callback(JSON.parse('{"error":"unknown"}'));
+        return callback('{"error":"unknown"}');
       });
       return;
     }
-    return callback(JSON.parse('{"error":"unknown"}'));
+    return callback('{"error":"unknown"}');
   });
 }
 
@@ -88,15 +88,15 @@ function getMatch(matchId,timeline,region,callback){
 
   get(options,function middle1(code,text){
     if(code==404){//Match not found
-      return callback(JSON.parse('{"error":"Match not found"}'));
+      return callback('{"error":"Match not found"}');
     }
     if(code==500||code==503){//rito server error, try again
       return get(options,middle1);
     }
     if(code==200){
-      return callback(JSON.parse(text));;
+      return callback(text);;
     }
-    return callback(JSON.parse('{"error":"unknown"}'));
+    return callback('{"error":"unknown"}');
   });
 }
 
@@ -137,8 +137,22 @@ function getDetails(mj){
   return output;
 }
 
-getHistory("JoseD92","lan",function(j){
-  getMatch(j.games[0].gameId,false,'lan',function (y){
+function inArray(arr,obj){
+  var tam = arr.length;
+  var i = 0;
+  var out = false;
+  while(i<tam&&arr[i]!=obj){i++;}
+  return !(i==tam);
+}
+
+exports.inArray = inArray;
+exports.getHistory = getHistory;
+exports.getMatch = getMatch;
+/*
+getHistory("JoseD92","lan",function(jj){
+  var j = JSON.parse(jj);
+  getMatch(j.games[0].gameId,false,'lan',function (yy){
+    var y = JSON.parse(yy);
     console.log(getDetails(y));
   });
 });/*
