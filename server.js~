@@ -61,6 +61,11 @@ app.get(/^\/champDic$/, function(req, res){
   return res.send(scripts.champions);
 });
 
+//Give summoner spells dictionary
+app.get(/^\/champDic$/, function(req, res){
+  return res.send(scripts.summonerSpells);
+});
+
 
 // Start server
 app.listen(port, ip);
