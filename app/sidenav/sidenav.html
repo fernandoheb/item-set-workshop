@@ -1,0 +1,22 @@
+<md-sidenav md-component-id="left" class="md-sidenav-left md-whiteframe-z3"
+            md-is-locked-open="true" flex layout="column">
+  <md-content ng-controller="sidenavController" flex>
+    <a href="#/">
+      <md-toolbar>
+        <!-- TODO Icon -->
+        <h1 class="md-toolbar-tools">Item Set Workshop</h1>
+      </md-toolbar>
+    </a>
+
+    <md-list>
+
+      <md-list-item ng-repeat="item in menu" ng-hide="item.hide">
+        <a href="#{{item.route}}" class="md-list-item-text">
+            <h4>{{item.name}}</h4>
+        </a>
+        <md-divider></md-divider>
+      </md-list-item>
+
+    </md-list>
+  </md-content>
+</md-sidenav>
