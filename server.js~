@@ -27,5 +27,16 @@ app.get(/^\/userName=%22(.+)%22&region=%22(.+)%22$/, function(req, res){
   });
 });
 
+// Give Match data
+app.get(/^\/matchId=%22(.+)%22&region=%22(.+)%22$/, function(req, res){
+  if(!scripts.inArray(lolServers,req.params[1])){
+    res.send('{"error":"invalid server"}');
+    return;
+  }
+  scripts.getMatch(req.params[0],false,req.params[1],function(text){
+    res.send(text);
+  });
+});
+
 // Start server
 app.listen(port, ip);
