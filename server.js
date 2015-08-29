@@ -24,45 +24,56 @@ function daily(){
 daily();*/
 
 // Give Match History
-app.get(/^\/userName=%22(.+)%22&region=%22(.+)%22$/, function(req, res){
-  if(!scripts.inArray(lolServers,req.params[1])){
-    res.send('{"error":"invalid server"}');
+app.get('/api/matchHistory', function(req, res){
+  if(req.query.sumName!=undefined&&req.query.region!=undefined){
+    if(!scripts.inArray(lolServers,req.query.region)){
+      res.send('{"error":"invalid server"}');
+      return;
+    }
+    scripts.getHistory(req.query.sumName,req.query.region,function(text){
+      res.send(text);
+    });
     return;
   }
-  scripts.getHistory(req.params[0],req.params[1],function(text){
-    res.send(text);
-  });
+  return res.send('{"error":"Bad request"}');
 });
 
 // Give Match data
-app.get(/^\/matchId=%22(.+)%22&region=%22(.+)%22$/, function(req, res){
-  if(!scripts.inArray(lolServers,req.params[1])){
-    res.send('{"error":"invalid server"}');
+app.get('/api/matchData', function(req, res){
+  if(req.query.matchId!=undefined&&req.query.region!=undefined){
+    if(!scripts.inArray(lolServers,req.query.region)){
+      res.send('{"error":"invalid server"}');
+      return;
+    }
+    scripts.getMatch(req.query.matchId,false,req.query.region,function(text){
+      res.send(text);
+    });
     return;
   }
-  scripts.getMatch(req.params[0],false,req.params[1],function(text){
-    res.send(text);
-  });
+  return res.send('{"error":"Bad request"}');
 });
 
 //Give ddragonVersion
-app.get(/^\/ddragon&region=%22(.+)%22$/, function(req, res){
-  if(!scripts.inArray(lolServers,req.params[0])){
-    res.send('{"error":"invalid server"}');
-    return;
+app.get('/api/ddragon', function(req, res){
+  if(req.query.region!=undefined){
+    if(!scripts.inArray(lolServers,req.query.region)){
+      res.send('{"error":"invalid server"}');
+      return;
+    }
+    var i = 0;
+    while(lolServers[i]!=req.query.region){i++;}
+    return res.send(scripts.ddragonVersion[i]);
   }
-  var i = 0;
-  while(lolServers[i]!=req.params[0]){i++;}
-  return res.send(scripts.ddragonVersion[i]);
+  return res.send('{"error":"Bad request"}');
 });
 
 //Give champions dictionary
-app.get(/^\/champDic$/, function(req, res){
+app.get('/api/champDic', function(req, res){
   return res.send(scripts.champions);
 });
 
 //Give summoner spells dictionary
-app.get(/^\/summonerSpells$/, function(req, res){
+app.get('/api/summonerSpells', function(req, res){
   return res.send(scripts.summonerSpells);
 });
 
