@@ -1,4 +1,6 @@
-const spawn = require('child_process').spawn;
+// We use cross-spawn because of issues on Windows.
+// See https://github.com/nodejs/node-v0.x-archive/issues/2318
+const spawn = require('cross-spawn');
 
 // Use custom HOME if deploying to OpenShift
 if (process.env.OPENSHIFT_DATA_DIR)
