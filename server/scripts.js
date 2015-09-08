@@ -168,11 +168,9 @@ function getDetails(mj){
 }
 
 function inArray(arr,obj){
-  var tam = arr.length;
-  var i = 0;
-  var out = false;
-  while(i<tam&&arr[i]!=obj){i++;}
-  return !(i==tam);
+  return !arr.every(function(elem){
+    return obj!=elem;
+  });
 }
 
 exports.inArray = inArray;
