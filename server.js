@@ -33,7 +33,7 @@ app.get('/api/matchHistory', function(req, res) {
   else {
     // History response
     lolApi.getHistory(summoner, region, function(obj) {
-      res.json(obj);
+      res.send(obj);
     });
   }
 
@@ -52,7 +52,7 @@ app.get('/api/matchData', function(req, res) {
   else {
     // Match response
     lolApi.getMatch(matchId, region, false, function(obj) {
-      res.json(obj);
+      res.send(obj);
     });
   }
 
@@ -68,7 +68,7 @@ app.get('/api/dragonVersion', function(req, res) {
 
   else {
     // Version response
-    res.json({ddversion: league.ddversion[index]});
+    res.send({ddversion: league.ddversion[index]});
   }
 
 });
@@ -80,7 +80,7 @@ app.get('/api/champions', function(req, res){
 
 // Summoner Spells List
 app.get('/api/summonerSpells', function(req, res){
-  res.send(league.summonerSpells);
+  res.json(league.summonerSpells);
 });
 
 // Start server
