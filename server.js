@@ -1,6 +1,7 @@
 const express = require('express');
-const scripts = require('./server/scripts.js')
-const lolServers = ["br","lan","eune","euw","kr","las","na","oce","ru","tr"];
+
+const lolApi = require('./server/lol-api.js');
+const league = require('./server/league.js');
 
 // Instantiate server
 var app = express();
@@ -10,73 +11,81 @@ var port = process.env.OPENSHIFT_NODEJS_PORT || 8080;
 var ip = process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1";
 
 // Configure routing resources
-app.use(express.static('app'));
+app.use(express.static(__dirname + '/dist/'));
 
 app.get('/', function (req, res) {
-  res.sendFile(__dirname + '/app/' + 'index.html');
+  res.sendFile(__dirname + '/dist/' + 'index.html');
 });
 
-/*
-//daily update
-function daily(){
-  return scripts.daily();
-}
-daily();*/
+// LOL API ROUTES (ALL RETURN A JSON RESPONSE)
 
-// Give Match History
-app.get('/api/matchHistory', function(req, res){
-  if(req.query.sumName!=undefined&&req.query.region!=undefined){
-    if(!scripts.inArray(lolServers,req.query.region)){
-      res.send('{"error":"invalid server"}');
-      return;
-    }
-    scripts.getHistory(req.query.sumName,req.query.region,function(text){
-      res.send(text);
+// Match History route
+// Returns a match history information based on a summoner on a region
+app.get('/api/matchHistory', function(req, res) {
+  var summoner = req.query.summoner.toLowerCase();
+  var region = req.query.region.toLowerCase();
+
+  if (!summoner) res.json({error: 'Bad request. No summoner specified.'});
+  else if (!region) res.json({error: 'Bad request. No region specified.'});
+  else if (league.regions.indexOf(region) < 0) res.json({error: 'Bad request. Unknown region.'});
+
+  else {
+    // History response
+    lolApi.getHistory(summoner, region, function(obj) {
+      res.send(obj);
     });
-    return;
   }
-  return res.send('{"error":"Bad request"}');
+
 });
 
-// Give Match data
-app.get('/api/matchData', function(req, res){
-  if(req.query.matchId!=undefined&&req.query.region!=undefined){
-    if(!scripts.inArray(lolServers,req.query.region)){
-      res.send('{"error":"invalid server"}');
-      return;
-    }
-    scripts.getMatch(req.query.matchId,false,req.query.region,function(text){
-      res.send(text);
+// Match Data Route
+// Returns the relevant data of a specified match
+app.get('/api/matchData', function(req, res) {
+  var matchId = req.query.matchId;
+  var region = req.query.region;
+
+  if (!matchId) res.json({error: 'Bad request. No match specified.'});
+  else if (!region) res.json({error: 'Bad request. No region specified.'});
+  else if (league.regions.indexOf(region) < 0) res.json({error: 'Bad request. Unknown region.'});
+
+  else {
+    // Match response
+    lolApi.getMatch(matchId, region, false, function(obj) {
+      res.send(obj);
     });
-    return;
   }
-  return res.send('{"error":"Bad request"}');
+
 });
 
-//Give ddragonVersion
-app.get('/api/ddragon', function(req, res){
-  if(req.query.region!=undefined){
-    if(!scripts.inArray(lolServers,req.query.region)){
-      res.send('{"error":"invalid server"}');
-      return;
-    }
-    var i = 0;
-    while(lolServers[i]!=req.query.region){i++;}
-    return res.send(scripts.ddragonVersion[i]);
+// Data Dragon version
+app.get('/api/dragonVersion', function(req, res) {
+  var region = req.query.region;
+  var index = league.regions.indexOf(region);
+
+  if (!region) res.json({error: 'Bad request. No region specified.'});
+  else if (index < 0) res.json({error: 'Bad request. Unknown region.'});
+
+  else {
+    // Version response
+    res.send({ddversion: league.ddversion[index]});
   }
-  return res.send('{"error":"Bad request"}');
+
 });
 
-//Give champions dictionary
-app.get('/api/champDic', function(req, res){
-  return res.send(scripts.champions);
+// Champions List
+app.get('/api/champions', function(req, res){
+  res.json(league.champions);
 });
 
-//Give summoner spells dictionary
+// Summoner Spells List
 app.get('/api/summonerSpells', function(req, res){
-  return res.send(scripts.summonerSpells);
+  res.json(league.summonerSpells);
 });
 
+// Default routing for Angular Application
+app.get('/*', function(req, res) {
+  res.sendFile(__dirname + '/dist/' + 'index.html');
+});
 
 // Start server
 app.listen(port, ip);
