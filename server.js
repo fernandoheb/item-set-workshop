@@ -1,5 +1,4 @@
 const express = require('express');
-const http = require('http');
 
 const lolApi = require('./server/lol-api.js');
 const league = require('./server/league.js');
@@ -12,10 +11,10 @@ var port = process.env.OPENSHIFT_NODEJS_PORT || 8080;
 var ip = process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1";
 
 // Configure routing resources
-app.use(express.static('app'));
+app.use(express.static(__dirname + '/dist/'));
 
 app.get('/', function (req, res) {
-  res.sendFile(__dirname + '/app/' + 'index.html');
+  res.sendFile(__dirname + '/dist/' + 'index.html');
 });
 
 // LOL API ROUTES (ALL RETURN A JSON RESPONSE)
@@ -81,6 +80,11 @@ app.get('/api/champions', function(req, res){
 // Summoner Spells List
 app.get('/api/summonerSpells', function(req, res){
   res.json(league.summonerSpells);
+});
+
+// Default routing for Angular Application
+app.get('/*', function(req, res) {
+  res.sendFile(__dirname + '/dist/' + 'index.html');
 });
 
 // Start server

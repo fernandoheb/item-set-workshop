@@ -26,9 +26,17 @@
     "express": "^4.13.3"
   },
   "scripts": {
+    "prepublish": "gulp setup",
+
     "postinstall": "node scripts/bower-build.js",
     "prestart": "npm install",
     "start": "node server.js",
+
     "update-index-async": "node -e \"require('shelljs/global'); sed('-i', /\\/\\/@@NG_LOADER_START@@[\\s\\S]*\\/\\/@@NG_LOADER_END@@/, '//@@NG_LOADER_START@@\\n' + sed(/sourceMappingURL=angular-loader.min.js.map/,'sourceMappingURL=bower_components/angular-loader/angular-loader.min.js.map','app/bower_components/angular-loader/angular-loader.min.js') + '\\n//@@NG_LOADER_END@@', 'app/index-async.html');\""
+  },
+  "devDependencies": {
+    "del": "^2.0.2",
+    "gulp": "^3.9.0",
+    "gulp-html-replace": "^1.5.2"
   }
 }
