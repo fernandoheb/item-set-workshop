@@ -11,10 +11,10 @@ var port = process.env.OPENSHIFT_NODEJS_PORT || 8080;
 var ip = process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1";
 
 // Configure routing resources
-app.use(express.static(__dirname + '/app/'));
+app.use(express.static(__dirname + '/dist/'));
 
 app.get('/', function (req, res) {
-  res.sendFile(__dirname + '/app/' + 'index.html');
+  res.sendFile(__dirname + '/dist/' + 'index.html');
 });
 
 // LOL API ROUTES (ALL RETURN A JSON RESPONSE)
@@ -84,7 +84,7 @@ app.get('/api/summonerSpells', function(req, res){
 
 // Default routing for Angular Application
 app.get('/*', function(req, res) {
-  res.sendFile(__dirname + '/app/' + 'index.html');
+  res.sendFile(__dirname + '/dist/' + 'index.html');
 });
 
 // Start server

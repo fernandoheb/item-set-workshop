@@ -1,7 +1,17 @@
-logs/*
-!.gitkeep
+# Deployment files
+dist/
+
+# JS Libraries
 node_modules/
 bower_components/
+
+# Logging
+logs/*
+
+# Git checkup
+!.gitkeep
+
+# Sytem and Temp files
 tmp
 .DS_Store
 .idea
