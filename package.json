@@ -26,9 +26,9 @@
     "express": "^4.13.3"
   },
   "scripts": {
-    "prepublish": "gulp setup",
+    "prepublish": "node scripts/homerun.js gulp setup",
 
-    "postinstall": "node scripts/bower-build.js",
+    "postinstall": "node scripts/homerun.js bower install",
     "prestart": "npm install",
     "start": "node server.js",
 
