@@ -9,15 +9,17 @@ angular.module('iswApp', [
   'iswApp.welcome',
   'iswApp.sidenav',
   'iswApp.searchplayer',
+  'iswApp.matchhistory',
 
   'myApp.view1',
   'myApp.view2',
   'myApp.version'
 ])
 
-// Configure root route
-.config(['$routeProvider', function($routeProvider) {
+// Routes main configuration
+.config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
   $routeProvider.otherwise({redirectTo: '/'});
+  $locationProvider.html5Mode(true);
 }])
 
 // Config Angular Material Theming
