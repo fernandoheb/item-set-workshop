@@ -1,4 +1,5 @@
 const gulp = require('gulp');
+const gutil = require('gulp-util');
 const hr = require('gulp-html-replace');
 const jade = require('gulp-jade');
 
@@ -35,8 +36,12 @@ gulp.task('setup:basetag', function() {
 
 // Preprocess jade files into HTML
 gulp.task('setup:jade', function() {
+  var jadeStream = jade().on('error', function(e) {
+    gutil.log(e);
+    jadeStream.end();
+  });
   gulp.src('app/**/*.jade')
-    .pipe(jade())
+    .pipe(jadeStream)
     .pipe(gulp.dest('dist'));
 });
 

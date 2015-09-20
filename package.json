@@ -36,6 +36,7 @@
     "del": "^2.0.2",
     "gulp": "^3.9.0",
     "gulp-html-replace": "^1.5.2",
-    "gulp-jade": "^1.1.0"
+    "gulp-jade": "^1.1.0",
+    "gulp-util": "^3.0.6"
   }
 }
