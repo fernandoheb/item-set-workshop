@@ -59,7 +59,7 @@ app.get('/api/matchData', function(req, res) {
 
 // Data Dragon version
 app.get('/api/dragonVersion', function(req, res) {
-  var region = req.query.region;
+  var region = req.query.region.toLowerCase();
   var index = league.regions.indexOf(region);
 
   if (!region) res.json({error: 'Bad request. No region specified.'});
@@ -67,7 +67,7 @@ app.get('/api/dragonVersion', function(req, res) {
 
   else {
     // Version response
-    res.send({ddversion: league.ddversion[index]});
+    res.json({version: league.ddversion[index]});
   }
 
 });
