@@ -1,0 +1,11 @@
+div(layout='column')
+    md-card(layout='row' ng-repeat='game in matchesData.games')
+      iws-champion-img(champion-id='game.championId' region='region' type='square'
+        style={width: '120px',  height: '120px'})
+      // TODO Temporal colors
+      div(style={'background-color':'#40FF47', width: '10px'} class='md-card-image' ng-show='game.stats.win')
+      div(style={'background-color':'#FF4238', width: '10px'} class='md-card-image' ng-hide='game.stats.win')
+
+      p(style='white-space:pre;' layout-margin)
+        | Champion: {{champions[game.championId]}}
+        | Level: {{game.level}}

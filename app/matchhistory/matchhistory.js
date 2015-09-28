@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('iswApp.matchhistory', ['ngRoute', 'ngResource'])
+angular.module('iswApp.matchhistory', ['ngRoute', 'ngResource', 'iswApp.league'])
 
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/matchhistory', {
@@ -9,8 +9,9 @@ angular.module('iswApp.matchhistory', ['ngRoute', 'ngResource'])
   });
 }])
 
-.controller('MatchHistoryController', ['$scope', '$resource', '$routeParams', function($scope, $resource, $routeParams) {
+.controller('MatchHistoryController', ['$scope', '$resource', '$routeParams', 'leagueData', function($scope, $resource, $routeParams, leagueData) {
   var matchHistory = $resource('/api/matchHistory');
+  $scope.region = $routeParams.region;
   $scope.matchesData = matchHistory.get({summoner: $routeParams.summoner, region: $routeParams.region});
-
+  $scope.champions = leagueData.champions.get();
 }]);
