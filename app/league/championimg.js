@@ -29,7 +29,7 @@ angular.module('iswApp.league')
       championId: '=',
       region: '='
     },
-    templateUrl: 'matchhistory/championimg.html',
+    templateUrl: 'league/championimg.html',
     link: link
   };
 }]);
