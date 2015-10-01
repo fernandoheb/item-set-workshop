@@ -7,9 +7,13 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>My AngularJS App</title>
-  <!-- build:base -->
-  <base href="http://localhost:8080/">
-  <!-- endbuild -->
+  <script>
+    document.write(
+        "<base href='http" + "://" +
+        document.location.hostname +
+        (document.location.port ? ":" + document.location.port : "") +
+        "/'" + " />");
+  </script>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
